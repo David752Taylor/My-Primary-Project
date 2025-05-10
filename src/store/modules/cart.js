@@ -8,7 +8,12 @@ export default {
     }
   },
   getters: {
-
+    total (state) {
+      return state.list.reduce((sum, item) => sum + item.count, 0)
+    },
+    totalPrice (state) {
+      return state.list.reduce((sum, item) => sum + item.price * item.count, 0)
+    }
   },
   mutations: {
     updateList (state, newList) {
