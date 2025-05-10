@@ -4,11 +4,9 @@
     <cart-header></cart-header>
 
     <!-- 商品 Item 项组件 -->
-    <cart-item></cart-item>
-    <cart-item></cart-item>
-    <cart-item></cart-item>
+    <cart-item v-for="item in list" :key="item.id" :item="item"></cart-item>
 
-    <!-- Foote 区域 -->
+    <!-- Footer 区域 -->
     <cart-footer></cart-footer>
   </div>
 </template>
@@ -18,12 +16,24 @@ import CartHeader from '@/components/cart-header.vue'
 import CartFooter from '@/components/cart-footer.vue'
 import CartItem from '@/components/cart-item.vue'
 
+import { mapState } from 'vuex'
+
 export default {
   name: 'App',
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapState('cart', ['list'])
+  },
   components: {
     CartHeader,
     CartFooter,
     CartItem
+  },
+  created () {
+    this.$store.dispatch('cart/getList')
   }
 }
 </script>

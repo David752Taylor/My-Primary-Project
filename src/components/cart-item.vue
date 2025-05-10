@@ -2,20 +2,20 @@
   <div class="goods-container">
     <!-- 左侧图片区域 -->
     <div class="left">
-      <img src="https://yanxuan-item.nosdn.127.net/3a56a913e687dc2279473e325ea770a9.jpg" class="avatar" alt="">
+      <img :src="item.thumb" class="avatar" alt="">
     </div>
     <!-- 右侧商品区域 -->
     <div class="right">
       <!-- 标题 -->
-      <div class="title">低帮城市休闲户外鞋天然牛皮COOLMAX纤维</div>
+      <div class="title">{{item.name}}</div>
       <div class="info">
         <!-- 单价 -->
-        <span class="price">￥128</span>
+        <span class="price">￥{{item.price}}</span>
         <div class="btns">
           <!-- 按钮区域 -->
-          <button class="btn btn-light">-</button>
-          <span class="count">1</span>
-          <button class="btn btn-light">+</button>
+          <button class="btn btn-light" @click="btnClick(-1)">-</button>
+          <span class="count">{{item.count}}</span>
+          <button class="btn btn-light" @click="btnClick(1)">+</button>
         </div>
       </div>
     </div>
@@ -23,10 +23,25 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'CartItem',
+  props: {
+    item: {
+      type: Object,
+      require: true
+    }
+  },
   methods: {
-
+    ...mapActions('cart', ['updateCountAsync']),
+    btnClick (step) {
+      const newCount = this.item.count + step
+      if (newCount < 1) return
+      const id = this.item.id
+      this.updateCountAsync({ id, newCount })
+      // this.$store.dispatch('cart/updateCountAsync', { id, newCount })
+    }
   }
 }
 </script>
